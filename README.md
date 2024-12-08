@@ -37,6 +37,8 @@ $ cd csv2sqlite-ruby
 $ bundler install
 ```
 
+If you copy or move the script to another location, don't forget to copy or move the `lib` subdirectory into the same target directory.
+
 ### Installation Requirements
 
 Yes, of course, Ruby must be installed.
