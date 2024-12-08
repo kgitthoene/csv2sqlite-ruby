@@ -1,4 +1,4 @@
-# Sample data conversion
+# Sample Data Conversion
 
 Two files from this source were used as test data: [GitHub datablist/sample-csv-files](https://github.com/datablist/sample-csv-files).
 

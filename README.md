@@ -3,14 +3,13 @@
 Convert [CSV files](https://en.wikipedia.org/wiki/Comma-separated_values) to a [SQLite database](https://www.sqlite.org/) using a [Ruby](https://www.ruby-lang.org/) command line program.
 
 ```
-Usage: csv2sqlite.rb [-dvqyCHm] [-c CONFIG] [--pidfile PIDFILE] [-s SEPARATOR] -o OUTPUT [T:TABLENAME] CSV-FILE [[T:TABLENAME] CSV-FILE ...]
+Usage: csv2sqlite.rb [-dvqyCH] [-c CONFIG] [--pidfile PIDFILE] [-s SEPARATOR] -o OUTPUT [T:TABLENAME] CSV-FILE [[T:TABLENAME] CSV-FILE ...]
     -d, --debug                      Enable debugging.
     -v, --verbose                    Talk more.
     -q, --quiet                      Talk nothing.
     -y, --overwrite                  Overwrite output files.
     -C, --write-sample-config-file   Writes a sample config file.
     -H, --header                     First line of csv contains header. (Default: true)
-    -m, --merge                      Merge with existing database. (Default: true)
     -c, --config CONFIG              Config file. (Default: 'config.yaml')
         --pidfile PIDFILE            File for process-id. (Default: Not set. Not written.)
     -s, --column-separator SEPARATOR CSV separator for columns. (Default: ',')
@@ -22,6 +21,30 @@ CSV files and table names:
     T:TABLENAME defines the name of a table, without the leading 'T:'.
   Without table names the cleaned name of the CSV file is taken.
 ```
+
+## Installation
+
+Clone this repository:
+
+```
+$ git clone https://github.com/kgitthoene/csv2sqlite-ruby.git
+```
+
+Check if you have to install required Ruby Gems:
+
+```
+$ cd csv2sqlite-ruby
+$ bundler install
+```
+
+### Installation Requirements
+
+Yes, of course, Ruby must be installed.
+See: [Ruby Installation](https://www.ruby-lang.org/en/documentation/installation/).
+
+I suggest to use **rbenv**: [https://www.ruby-lang.org/en/documentation/installation/#rbenv](https://www.ruby-lang.org/en/documentation/installation/#rbenv)
+
+Rbenv Website: [https://github.com/rbenv/rbenv](https://github.com/rbenv/rbenv#readme).
 
 ## CSV Column Separator
 
@@ -52,6 +75,17 @@ Example: `ruby csv2sqlite.rb -o 10000.sqlite` ...
 An existing database file will not be overwritten until you set the overwrite option: `-y` / `--overwrite`.
 
 Example: `ruby csv2sqlite.rb -o 10000.sqlite -y` ...
+
+## CSV Data with Header
+
+If the CSV data contains the names of the columns in the first row, these can become the column names of the resulting table in the database.
+
+This can be enabled with the `-H` / `--header` option.
+The column names from the CSV file are then converted into acceptable column names for the table.
+
+Example: `ruby csv2sqlite.rb -H` ...
+
+By default the column names in the database table start with `A`, `B`, `C` and so on ...
 
 ## Full Example
 

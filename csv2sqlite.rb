@@ -83,7 +83,7 @@ It.optparse do |options|
   options[:output] = nil
   options[:overwrite_output_file_if_exist] = false
   optparse = OptionParser.new do |opts|
-    opts.banner = "Usage: #{$g_myname} [-dvqyCHm] [-c CONFIG] [--pidfile PIDFILE] [-s SEPARATOR] -o OUTPUT [T:TABLENAME] CSV-FILE [[T:TABLENAME] CSV-FILE ...]"
+    opts.banner = "Usage: #{$g_myname} [-dvqyCH] [-c CONFIG] [--pidfile PIDFILE] [-s SEPARATOR] -o OUTPUT [T:TABLENAME] CSV-FILE [[T:TABLENAME] CSV-FILE ...]"
     opts.on("-d", "--debug", "Enable debugging.") do |_dummy|
       options[:debug] = true
     end
@@ -102,9 +102,9 @@ It.optparse do |options|
     opts.on("-H", "--header", String, "First line of csv contains header. (Default: #{(!options[:header_in_csv]).to_s})") do |_data|
       options[:header_in_csv] = true
     end
-    opts.on("-m", "--merge", String, "Merge with existing database. (Default: #{(!options[:merge]).to_s})") do |_data|
-      options[:merge] = true
-    end
+    #opts.on("-m", "--merge", String, "Merge with existing database. (Default: #{(!options[:merge]).to_s})") do |_data|
+    #  options[:merge] = true
+    #end
     opts.on("-c CONFIG", "--config CONFIG", String, "Config file. (Default: '#{options[:config_default]}')") do |_data|
       options[:config] = _data
     end
