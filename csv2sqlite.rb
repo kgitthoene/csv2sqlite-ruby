@@ -127,11 +127,10 @@ It.optparse do |options|
       puts opts
       puts <<EOF
 
-CSV files and table names.
-Ahead each CSV file you may define the table name for the csv data.
-  T:TABLENAME defines the name of a table, without the leading 'T:'.
-
-Without table names the cleaned name of the CSV file is taken.
+CSV files and table names:
+  Ahead each CSV file you may define the table name for the csv data.
+    T:TABLENAME defines the name of a table, without the leading 'T:'.
+  Without table names the cleaned name of the CSV file is taken.
 
 EOF
       # msg =<<EOF
@@ -181,12 +180,12 @@ end
 It::Gl.options[:debug] = false if It::Gl.fetch(:write_config_only, default: false)
 It.config(It::Gl.options[:config], true)
 # Create directories.
-%w[lib log run].each do |sdn|
-  dn = File.join("var", sdn)
-  FileUtils.mkdir_p(dn) unless Dir.exist?(dn)
-end
-logfn = File.join("var", "log", "#{File.basename($g_myname, File.extname($g_myname))}.log")
-It.logging(logfn)
+##%w[lib log run].each do |sdn|
+##  dn = File.join("var", sdn)
+##  FileUtils.mkdir_p(dn) unless Dir.exist?(dn)
+##end
+##logfn = File.join("var", "log", "#{File.basename($g_myname, File.extname($g_myname))}.log")
+##It.logging(logfn)
 #
 It.debug("OPTIONS=#{It.pp_s(It::Gl.options)}")
 It.debug("CONFIG=#{It.pp_s(It::Gl.config)}")
