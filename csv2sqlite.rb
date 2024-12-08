@@ -207,6 +207,24 @@ class Main
   class << self
     COL_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+    def get_column_name(index)
+      value = index.to_s(COL_CHARACTERS.length)
+      result = ""
+      while value != ""
+        first_char = value[0]
+        value = value[1..-1]
+        case first_char
+        when /^\d$/
+          col_char_index = first_char.to_i
+        else
+          col_char_index = first_char.ord - "a".ord + 10
+        end
+        result += COL_CHARACTERS[col_char_index]
+      end
+      #It.debug("INDEX=#{index} -> VALUE='#{value}' BASE=#{COL_CHARACTERS.length} RESULT='#{result}'")
+      return result
+    end
+
     def get_db_column_name(key, index)
       key = get_column_name(index) if It.is_empty?(key)
       return It.slugify(key.to_s)
@@ -248,24 +266,6 @@ class Main
       end
     end
 
-    def get_column_name(index)
-      value = index.to_s(COL_CHARACTERS.length)
-      It.debug("INDEX=#{index} -> VALUE='#{value}' BASE=#{COL_CHARACTERS.length}")
-      result = ""
-      while value != ""
-        first_char = value[0]
-        value = value[1..-1]
-        case first_char
-        when /^\d$/
-          col_char_index = first_char.to_i
-        else
-          col_char_index = first_char.ord - "a".ord + 10
-        end
-        result += COL_CHARACTERS[col_char_index]
-      end
-      return result
-    end
-
     def write_csv_to_sqlite_database(csv, db, table_name, **kwargs)
       raise(It::Exception, "Invalid parameter! 'csv' not set!") if It.is_empty?(csv)
       raise(It::Exception, "Invalid parameter! 'db' not set!") if db.nil?
@@ -280,18 +280,19 @@ class Main
         csv.each do |row|
           index = 0
           first_element_flag = true
+          converted_row = nil
           if headers
-            converted_row = row.to_hash
+            converted_row = row.to_hash.clone
           else
-            converted_row = row.to_ary
+            converted_row = row.clone
           end
           values = []
           while converted_row.size > 0
-            key, value = if headers
-                converted_row.shift
-              else
-                return get_column_name(index), converted_row.shift
-              end
+            if headers
+              key, value = converted_row.shift
+            else
+              key, value = nil, converted_row.shift
+            end
             data_type = get_db_data_type(value)
             if column_data_types[index] == :db_unknown
               column_data_types[index] = data_type
@@ -308,18 +309,19 @@ class Main
         column_names_with_type = []
         converted_row = []
         if headers
-          converted_row = row_1st.to_hash
+          converted_row = row_1st.to_hash.clone
         else
-          converted_row = row_1st.to_ary
+          converted_row = row_1st.clone
         end
         index = 0
         while converted_row.size > 0
-          key, value = if headers
-              converted_row.shift
-            else
-              return get_column_name(index), converted_row.shift
-            end
-          column_names_comma_list += (It.is_empty?(column_names_comma_list) ? "" : ", ") + "\"#{get_db_column_name(key, index)}\""
+          if headers
+            key, value = converted_row.shift
+          else
+            key, value = nil, converted_row.shift
+          end
+          column_name = get_db_column_name(key, index)
+          column_names_comma_list += (It.is_empty?(column_names_comma_list) ? "" : ", ") + "\"#{column_name}\""
           literal_data_type = case column_data_types[index]
             when :db_integer, :db_boolean
               "INTEGER"
@@ -328,7 +330,7 @@ class Main
             else
               "TEXT"
             end
-          column_names_with_type << "\"#{get_db_column_name(key, index)}\" #{literal_data_type}"
+          column_names_with_type << "\"#{column_name}\" #{literal_data_type}"
           index += 1
         end
         column_length = index
@@ -346,17 +348,17 @@ class Main
           index = 0
           first_element_flag = true
           if headers
-            converted_row = row.to_hash
+            converted_row = row.to_hash.clone
           else
-            converted_row = row.to_ary
+            converted_row = row.clone
           end
           values = []
           while converted_row.size > 0
-            key, value = if headers
-                converted_row.shift
-              else
-                return get_column_name(index), converted_row.shift
-              end
+            if headers
+              key, value = converted_row.shift
+            else
+              key, value = nil, converted_row.shift
+            end
             values << get_db_value(value, column_data_types[index])
             #It.debug("KEY='#{key}' VALUE='#{value}'")
             #It.debug("DATA -- #{get_db_column_name(key, index)}: #{get_yaml_value(value)}")
