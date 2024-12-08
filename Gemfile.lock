@@ -1,0 +1,33 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    concurrent-ruby (1.3.4)
+    highline (3.1.1)
+      reline
+    io-console (0.8.0)
+    mini_portile2 (2.8.8)
+    reline (0.5.12)
+      io-console (~> 0.5)
+    sqlite3 (2.0.4)
+      mini_portile2 (~> 2.8.0)
+    sqlite3 (2.0.4-arm64-darwin)
+    sqlite3 (2.0.4-x86_64-darwin)
+    tzinfo (2.0.6)
+      concurrent-ruby (~> 1.0)
+    tzinfo-data (1.2024.2)
+      tzinfo (>= 1.0.0)
+
+PLATFORMS
+  arm64-darwin
+  ruby
+  x86_64-darwin
+  x86_64-linux
+
+DEPENDENCIES
+  highline (~> 3.1.1)
+  sqlite3 (~> 2.0.4)
+  tzinfo (~> 2.0.6)
+  tzinfo-data (~> 1.2024.2)
+
+BUNDLED WITH
+   2.5.23
