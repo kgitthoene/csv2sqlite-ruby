@@ -27,14 +27,14 @@ CSV files and table names:
 Clone this repository:
 
 ```
-$ git clone https://github.com/kgitthoene/csv2sqlite-ruby.git
+git clone https://github.com/kgitthoene/csv2sqlite-ruby.git
 ```
 
 Check if you have to install required Ruby Gems:
 
 ```
-$ cd csv2sqlite-ruby
-$ bundler install
+cd csv2sqlite-ruby
+bundler install
 ```
 
 If you copy or move the script to another location, don't forget to copy or move the `lib` subdirectory into the same target directory.
